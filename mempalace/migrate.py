@@ -104,7 +104,7 @@ def detect_chromadb_version(db_path: str) -> str:
         conn.close()
 
 
-def has_palace_database(path: str) -> bool:
+def contains_palace_database(path: str) -> bool:
     """Return True when path looks like a MemPalace ChromaDB directory."""
     return os.path.isfile(os.path.join(path, "chroma.sqlite3"))
 
@@ -135,7 +135,7 @@ def migrate(palace_path: str, dry_run: bool = False, confirm: bool = False):
     palace_path = os.path.abspath(os.path.expanduser(palace_path))
     db_path = os.path.join(palace_path, "chroma.sqlite3")
 
-    if not os.path.isdir(palace_path) or not has_palace_database(palace_path):
+    if not os.path.isdir(palace_path) or not contains_palace_database(palace_path):
         print(f"\n  No palace database found at {db_path}")
         return False
 

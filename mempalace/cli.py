@@ -170,7 +170,7 @@ def cmd_repair(args):
     """Rebuild palace vector index from SQLite metadata."""
     import chromadb
     import shutil
-    from .migrate import confirm_destructive_action, has_palace_database
+    from .migrate import confirm_destructive_action, contains_palace_database
 
     palace_path = os.path.abspath(
         os.path.expanduser(args.palace) if args.palace else MempalaceConfig().palace_path
@@ -180,7 +180,7 @@ def cmd_repair(args):
     if not os.path.isdir(palace_path):
         print(f"\n  No palace found at {palace_path}")
         return
-    if not has_palace_database(palace_path):
+    if not contains_palace_database(palace_path):
         print(f"\n  No palace database found at {db_path}")
         return
 
@@ -226,8 +226,11 @@ def cmd_repair(args):
     palace_path = palace_path.rstrip(os.sep)
     backup_path = palace_path + ".backup"
     if os.path.exists(backup_path):
-        if not has_palace_database(backup_path):
-            print(f"  Refusing to delete non-palace backup path: {backup_path}")
+        if not contains_palace_database(backup_path):
+            print(
+                "  Cannot proceed: backup path exists but is not a valid palace database. "
+                f"Please remove or rename: {backup_path}"
+            )
             return
         shutil.rmtree(backup_path)
     print(f"  Backing up to {backup_path}...")
