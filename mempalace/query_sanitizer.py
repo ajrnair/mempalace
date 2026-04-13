@@ -70,7 +70,9 @@ def sanitize_query(raw_query: str) -> dict:
 
     def _strip_wrapping_quotes(candidate: str) -> str:
         candidate = candidate.strip()
-        while len(candidate) >= 2 and candidate[:1] in QUOTE_CHARS and candidate[-1:] in QUOTE_CHARS:
+        while (
+            len(candidate) >= 2 and candidate[:1] in QUOTE_CHARS and candidate[-1:] in QUOTE_CHARS
+        ):
             candidate = candidate[1:-1].strip()
             if not candidate:
                 return ""
@@ -86,7 +88,9 @@ def sanitize_query(raw_query: str) -> dict:
             return candidate
 
         nested_fragments = [
-            _strip_wrapping_quotes(frag) for frag in _SENTENCE_SPLIT.split(candidate) if frag.strip()
+            _strip_wrapping_quotes(frag)
+            for frag in _SENTENCE_SPLIT.split(candidate)
+            if frag.strip()
         ]
         for frag in reversed(nested_fragments):
             if MIN_QUERY_LENGTH <= len(frag) <= MAX_QUERY_LENGTH:

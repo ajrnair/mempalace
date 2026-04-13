@@ -204,7 +204,9 @@ def cmd_repair(args):
         print("  Nothing to repair.")
         return
 
-    if not confirm_destructive_action("Repair", palace_path, assume_yes=getattr(args, "yes", False)):
+    if not confirm_destructive_action(
+        "Repair", palace_path, assume_yes=getattr(args, "yes", False)
+    ):
         return
 
     # Extract all drawers in batches
@@ -567,7 +569,9 @@ def main():
         action="store_true",
         help="Show what would be migrated without changing anything",
     )
-    p_migrate.add_argument("--yes", action="store_true", help="Skip confirmation for destructive changes")
+    p_migrate.add_argument(
+        "--yes", action="store_true", help="Skip confirmation for destructive changes"
+    )
 
     sub.add_parser("status", help="Show what's been filed")
 
